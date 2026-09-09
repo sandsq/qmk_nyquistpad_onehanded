@@ -35,7 +35,7 @@ enum layers {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 
-  /* 
+  /*
  * .--------------------------------------------------------------------------------------------------------------------------------------.
  * |        |        |        |        |        |        |        |        |        |        |        |        |        |        |        |
  * |--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+--------+-----------------|--------|
@@ -50,41 +50,56 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 */
 
+
  [_MAIN] = LAYOUT(
-   KC_Q,     KC_SLSH, OSSFT,   KC_ENT,      KC_DOT,   KC_QUOT,   
-   KC_TAB,   KC_E,    KC_H,    KC_T,        KC_I,     KC_P,    
-   KC_COMM,    KC_S,    KC_E,    OSL(_ALPHA2), KC_A,     KC_W,   
-   OSL(_NUM), KC_N, KC_I,    KC_V,        KC_F,     KC_K, 
-   KC_LGUI,  KC_CAPS, KC_LALT, OSL(_UTILS), KC_BSPC, KC_SPC
+     KC_QUOT,     KC_Y,     KC_U,   OSSFT,     KC_W,   KC_DOT,
+       KC_V,     KC_D,     KC_A,   OSL(_ALPHA2),     KC_N,   KC_GRV,
+       KC_F,     KC_S,     KC_E,     KC_H,     KC_T,     KC_L,
+     OSL(_NUM),     KC_C,     KC_I,     KC_O,     KC_R,     KC_M,
+     KC_LGUI,  KC_CAPS,   KC_LALT,  OSL(_UTILS),  KC_BSPC,   KC_SPC
   ),
 
  [_ALPHA2] = LAYOUT(
-    KC_ESC,   KC_Z,   KC_MINS, KC_X,        KC_L,     KC_GRV,   
-    KC_SCLN,  KC_Y,   KC_B,    KC_ENT,      KC_G,     KC_T,   
-    OSCTL,  KC_U,   KC_O,    _______, KC_R,     KC_C,   
-    KC_S,     KC_M,   KC_Y,    KC_J,        KC_D,     KC_J,      
-    KC_LGUI, _______, KC_LALT, _______,     KC_L,  _______
-  ),  
+     KC_TAB,     KC_J,  KC_SLSH,  _______,   KC_DOT,     KC_Q,
+     KC_BSLS,   KC_GRV,     KC_L,  _______,     KC_P,  KC_RBRC,
+     OSCTL,     KC_K,     KC_G,  KC_MINS,  KC_COMM,     KC_A,
+        KC_Z,     KC_X,  KC_MINS,  _______,  KC_SCLN,  KC_LBRC,
+     _______,  _______,  _______,   KC_DOT,     KC_P,     KC_B
+  ),
 
   [_NUM] = LAYOUT(
-    KC_LPRN,  KC_RPRN,    KC_EQL,   KC_SLSH,  KC_ASTR,   KC_MINS, 
-    KC_LBRC,  KC_RBRC,    KC_1,     KC_2,     KC_3,      KC_PLUS, 
-    KC_LCBR,  KC_RCBR,    KC_4,     KC_5,     KC_6,      KC_ENT,  
-    _______,  KC_COMM,    KC_7,     KC_8,     KC_9,      KC_UNDS, 
+    KC_LPRN,  KC_RPRN,    KC_EQL,   KC_SLSH,  KC_ASTR,   KC_MINS,
+    KC_LBRC,  KC_RBRC,    KC_1,     KC_2,     KC_3,      KC_PLUS,
+    KC_LCBR,  KC_RCBR,    KC_4,     KC_5,     KC_6,      KC_ENT,
+    _______,  KC_COMM,    KC_7,     KC_8,     KC_9,      KC_UNDS,
     _______,_______,      KC_COLN,  KC_0,     KC_DOT,    OSSFT
-  ), 
+  ),
 
   [_UTILS] = LAYOUT(
     QK_BOOT,  CTRLC,     CTRLV,    CTRLX,    CTRLS,    CTRLZ,
-    KC_F1,  KC_F2,     KC_F3,    KC_F4,    KC_F5,    KC_F6,     
-    _______,  KC_LEFT,   KC_UP,    KC_DOWN,  KC_RIGHT, KC_DEL,   
-    OSSFT,    KC_HOME,   KC_PGUP,  KC_PGDN,  KC_END,   KC_PSCR,    
+    KC_F1,  KC_F2,     KC_F3,    KC_F4,    KC_F5,    KC_F6,
+    _______,  KC_LEFT,   KC_UP,    KC_DOWN,  KC_RIGHT, KC_DEL,
+    OSSFT,    KC_HOME,   KC_PGUP,  KC_PGDN,  KC_END,   KC_PSCR,
     KC_F7,  KC_F8,     KC_F9,    _______,    KC_F10,    _______
-  ), 
+  ),
 
 };
 
 
+
+
+void post_process_record_user(uint16_t keycode, keyrecord_t *record) {
+    if (!record->event.pressed) {
+        return;
+    }
+
+    switch (keycode) {
+        case OSSFT:
+        case OSCTL:
+            clear_oneshot_layer_state(ONESHOT_START);
+            break;
+    }
+}
 
 bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
     if (host_keyboard_led_state().caps_lock) { //|| is_caps_word_on()) {
