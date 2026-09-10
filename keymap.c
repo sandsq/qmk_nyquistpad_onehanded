@@ -100,19 +100,6 @@ void post_process_record_user(uint16_t keycode, keyrecord_t *record) {
 }
 
 
-void post_process_record_user(uint16_t keycode, keyrecord_t *record) {
-    if (!record->event.pressed) {
-        return;
-    }
-
-    switch (keycode) {
-        case OSSFT:
-        case OSCTL:
-            clear_oneshot_layer_state(ONESHOT_START);
-            break;
-    }
-}
-
 bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
     if (host_keyboard_led_state().caps_lock) { //|| is_caps_word_on()) {
         RGB_MATRIX_INDICATOR_SET_COLOR(31, 255, 70, 70);
