@@ -50,6 +50,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 */
 
+
  [_MAIN] = LAYOUT(
    KC_Q,     KC_SLSH, OSSFT,   KC_ENT,      KC_DOT,   KC_QUOT,
    KC_TAB,   KC_E,    KC_H,    KC_T,        KC_I,     KC_P,
@@ -83,6 +84,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   ),
 
 };
+
+
+void post_process_record_user(uint16_t keycode, keyrecord_t *record) {
+    if (!record->event.pressed) {
+        return;
+    }
+
+    switch (keycode) {
+        case OSSFT:
+        case OSCTL:
+            clear_oneshot_layer_state(ONESHOT_START);
+            break;
+    }
+}
 
 
 void post_process_record_user(uint16_t keycode, keyrecord_t *record) {
